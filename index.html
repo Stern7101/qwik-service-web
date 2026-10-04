@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qwik Service – Book your car service by phone</title>
+  <meta name="description" content="Qwik Service: book, check, reschedule or cancel your vehicle service appointment – just call Quinn, our voice assistant.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e10600'/%3E%3Ctext x='32' y='45' font-size='38' font-family='Arial' font-weight='900' font-style='italic' text-anchor='middle' fill='white'%3EQ%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">QWIK <span>SERVICE</span></a>
+    <nav class="main">
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#inspection" data-i18n="nav.inspection">Safety inspection</a>
+      <a href="#locations" data-i18n="nav.locations">Locations</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="advisor.html" data-i18n="nav.advisor">Advisor dashboard</a>
+    </nav>
+    <div class="top-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="de" aria-pressed="false">DE</button>
+      </div>
+      <a class="btn btn-red" href="#call" data-i18n="nav.call">Call Quinn</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Fast · Friendly · Reliable</div>
+        <h1 data-i18n="hero.title">Your car service, booked in one call.</h1>
+        <p class="lead" data-i18n="hero.lead">Talk to Quinn, our voice assistant – in English or German, 24/7. Book a service or your annual safety inspection, check the status, reschedule or cancel in a minute.</p>
+        <div class="cta">
+          <a class="btn btn-red" href="#call" data-i18n="hero.cta">Call Quinn now</a>
+          <a class="btn btn-ghost" style="color:#fff;border-color:#fff" href="#services" data-i18n="hero.cta2">See our services</a>
+        </div>
+        <div class="badges">
+          <span data-i18n="hero.b1">🔧 6 service centers</span>
+          <span data-i18n="hero.b2">✅ Certified safety inspections</span>
+          <span data-i18n="hero.b3">🗣️ English &amp; Deutsch</span>
+        </div>
+      </div>
+
+      <!-- Click-to-Call -->
+      <div class="call-card" id="call">
+        <div class="call-head">
+          <div class="avatar">Q</div>
+          <div>
+            <h2>Quinn</h2>
+            <small data-i18n="call.sub">Qwik Service voice assistant</small>
+          </div>
+          <span class="status" id="callStatus" data-i18n="call.idle">Ready</span>
+        </div>
+
+        <label class="field" for="callerId" data-i18n="call.as">Call as (demo)</label>
+        <select id="callerId">
+          <option value="+49301234567">+49 30 1234567 · BER-1024 · 94105</option>
+          <option value="+14155550102">+1 415 555 0102 · MUC-7788 · 10001</option>
+          <option value="+61412345678">+61 412 345 678 · HAM-9001 · 60601</option>
+          <option value="" data-i18n="call.unknown">Unknown number (not registered)</option>
+        </select>
+        <p class="demo-note" data-i18n="call.note">Simulates the phone number (caller ID) a real phone call would send. Choose “Unknown number” to test the “calling from another number” path.</p>
+
+        <div class="call-actions">
+          <button class="btn btn-red" id="btnCall" type="button" data-i18n="call.start">📞 Call</button>
+          <button class="btn btn-dark" id="btnMute" type="button" disabled data-i18n="call.mute">Mute</button>
+          <button class="btn btn-ghost" id="btnEnd" type="button" disabled data-i18n="call.end">End</button>
+        </div>
+
+        <div class="transcript" id="transcript" aria-live="polite" data-empty="Live transcript appears here during the call."></div>
+
+        <div class="xapp" id="xapp">
+          <div class="xapp-bar"><span data-i18n="xapp.title">📱 Qwik Service app</span><a id="xappOpen" href="#" target="_blank" rel="noopener" data-i18n="xapp.open">Open in new tab ↗</a></div>
+          <iframe id="xappFrame" title="Qwik Service app" allow="clipboard-write"></iframe>
+          <div class="xapp-pin"><span data-i18n="xapp.pin">Other device? Open</span> <a id="xappPinUrl" href="#" target="_blank" rel="noopener">static-app.cognigy.ai</a> · PIN <b id="xappPin">—</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="wrap">
+      <h2 class="sec" data-i18n="svc.title">Service menu</h2>
+      <p class="sec-lead" data-i18n="svc.lead">Not sure what your car needs? Book a general inspection or a diagnostic visit and talk to the technician about the symptoms.</p>
+      <div class="grid g3">
+        <div class="card"><div class="ico">🩺</div><h3 data-i18n="svc.repair">Repair &amp; diagnostics</h3><ul data-i18n-list="svc.repairL"><li>Diagnostic scan</li><li>Dashboard lights</li><li>Engine tune-up</li><li>A/C &amp; heating</li><li>Shocks &amp; struts</li><li>Exhaust system</li></ul></div>
+        <div class="card"><div class="ico">🛢️</div><h3 data-i18n="svc.oil">Oil change services</h3><ul data-i18n-list="svc.oilL"><li>Standard oil change</li><li>Synthetic oil change</li><li>High-mileage oil change</li></ul></div>
+        <div class="card"><div class="ico">🛞</div><h3 data-i18n="svc.tire">Tire services</h3><ul data-i18n-list="svc.tireL"><li>Tire rotation</li><li>Tire balancing</li><li>Flat tire repair</li><li>Tire installation</li><li>Wheel alignment</li></ul></div>
+        <div class="card"><div class="ico">🛑</div><h3 data-i18n="svc.brake">Brake services</h3><ul data-i18n-list="svc.brakeL"><li>Brake inspection</li><li>Standard brake service</li><li>Premium brake service</li></ul></div>
+        <div class="card"><div class="ico">🔋</div><h3 data-i18n="svc.battery">Battery &amp; charging</h3><ul data-i18n-list="svc.batteryL"><li>Battery check</li><li>Battery replacement</li><li>Charging system evaluation</li></ul></div>
+        <div class="card"><div class="ico">🧰</div><h3 data-i18n="svc.basics">Maintenance basics</h3><ul data-i18n-list="svc.basicsL"><li>Filter replacement</li><li>Windshield wipers</li><li>Headlights</li><li>Courtesy vehicle inspection</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="alt">
+    <div class="wrap">
+      <h2 class="sec" data-i18n="how.title">How booking works</h2>
+      <p class="sec-lead" data-i18n="how.lead">Quinn walks you through it – you just talk.</p>
+      <div class="grid g5">
+        <div class="card step"><div class="n">1</div><p data-i18n="how.s1">Choose your service center</p></div>
+        <div class="card step"><div class="n">2</div><p data-i18n="how.s2">Tell us your vehicle</p></div>
+        <div class="card step"><div class="n">3</div><p data-i18n="how.s3">Pick your service</p></div>
+        <div class="card step"><div class="n">4</div><p data-i18n="how.s4">Choose date and time</p></div>
+        <div class="card step"><div class="n">5</div><p data-i18n="how.s5">Get your confirmation</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inspection">
+    <div class="wrap">
+      <h2 class="sec" data-i18n="insp.title">Annual vehicle safety inspection</h2>
+      <p class="sec-lead" data-i18n="insp.lead">Most vehicles must pass a safety inspection once every 12 months. Our certified centers in Berlin, San Francisco and Sydney do it for you.</p>
+      <div class="grid g3">
+        <div class="card"><h3 data-i18n="insp.h1">What is checked</h3><p data-i18n="insp.p1">Brakes and parking brake, lights and horn, steering and suspension, tires and wheels, mirrors, windshield and wipers, exhaust and emissions equipment, seats, seat belts and airbags, doors, hood latch, floor pan and license plate light.</p></div>
+        <div class="card"><h3 data-i18n="insp.h2">How it works</h3><p data-i18n="insp.p2">Visit a certified inspection station, the old sticker is removed, a certified inspector checks the safety items – if your vehicle passes, a new sticker goes on the windshield.</p></div>
+        <div class="card"><h3 data-i18n="insp.h3">If it does not pass</h3><p data-i18n="insp.p3">You may get a rejection sticker or notice. Repair the listed defects and return for re-inspection within 15 days – Quinn books the re-inspection for you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="locations" class="alt">
+    <div class="wrap">
+      <h2 class="sec" data-i18n="loc.title">Our service centers</h2>
+      <p class="sec-lead" data-i18n="loc.lead">Open Monday to Saturday. Appointments from 8 a.m.</p>
+      <div class="grid g3">
+        <div class="card loc"><h3>Berlin Auto Center</h3><p>12 Friedrichstrasse, 10117 Berlin, Germany</p><p>+49 30 1234 5678</p><span class="badge" data-i18n="loc.cert">Certified for safety inspection</span></div>
+        <div class="card loc"><h3>Munich Service Hub</h3><p>88 Leopoldstrasse, 80802 Munich, Germany</p><p>+49 89 2345 6789</p><span class="badge no" data-i18n="loc.nocert">Maintenance &amp; repairs</span></div>
+        <div class="card loc"><h3>San Francisco Auto Center</h3><p>101 Market St, San Francisco, CA 94105, USA</p><p>+1 415 555 0102</p><span class="badge" data-i18n="loc.cert">Certified for safety inspection</span></div>
+        <div class="card loc"><h3>New York Service Hub</h3><p>22 W 34th St, New York, NY 10001, USA</p><p>+1 212 555 0199</p><span class="badge no" data-i18n="loc.nocert">Maintenance &amp; repairs</span></div>
+        <div class="card loc"><h3>Sydney Auto Center</h3><p>200 George St, Sydney, NSW 2000, Australia</p><p>+61 2 9012 3456</p><span class="badge" data-i18n="loc.cert">Certified for safety inspection</span></div>
+        <div class="card loc"><h3>Melbourne Service Hub</h3><p>55 Collins St, Melbourne, VIC 3000, Australia</p><p>+61 3 9123 4567</p><span class="badge no" data-i18n="loc.nocert">Maintenance &amp; repairs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2 class="sec" data-i18n="faq.title">Frequently asked questions</h2>
+      <p class="sec-lead" data-i18n="faq.lead">Quinn can answer these and more on the phone.</p>
+      <details><summary data-i18n="faq.q1">Can I change my service center location?</summary><p data-i18n="faq.a1">Yes. You can usually change locations before final confirmation, though you may need to reselect available services or times.</p></details>
+      <details><summary data-i18n="faq.q2">Will I get a confirmation email or SMS?</summary><p data-i18n="faq.a2">Yes. A confirmation is typically sent by email, and optional text reminders may be available.</p></details>
+      <details><summary data-i18n="faq.q3">What time should I arrive for my service?</summary><p data-i18n="faq.a3">Arrive about 10–15 minutes early so check-in is quick and easy.</p></details>
+      <details><summary data-i18n="faq.q4">Are loaner vehicles available during service?</summary><p data-i18n="faq.a4">Loaner availability varies by location and service type. Check with your service center when booking.</p></details>
+      <details><summary data-i18n="faq.q5">Can I book if I am not sure what my vehicle needs?</summary><p data-i18n="faq.a5">Yes. You can choose a general inspection or diagnostic visit and discuss symptoms with the technician.</p></details>
+    </div>
+  </section>
+
+  <section class="alt" id="testers">
+    <div class="wrap">
+      <div class="tester">
+        <h3 data-i18n="test.title">For evaluators: test data</h3>
+        <p data-i18n="test.lead">Use “Call as” above to simulate the caller's phone number. Quinn asks for license plate and postal code; with “Unknown number” she also asks for the registered phone number.</p>
+        <div class="table-scroll">
+          <table class="creds">
+            <thead><tr><th data-i18n="test.phone">Registered phone</th><th data-i18n="test.plate">License plate</th><th data-i18n="test.zip">Postal code</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">+49 30 1234567</td><td class="mono">BER-1024</td><td class="mono">94105</td></tr>
+              <tr><td class="mono">+1 415 555 0102</td><td class="mono">MUC-7788</td><td class="mono">10001</td></tr>
+              <tr><td class="mono">+61 412 345 678</td><td class="mono">HAM-9001</td><td class="mono">60601</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p data-i18n="test.flow">Suggested order: check status → reschedule (then see the Advisor dashboard) → cancel (decide in the app panel) → book a new service or a safety inspection.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="foot.demo">Qwik Service is a fictitious company – demo for the NiCE Cognigy Capstone Project (Use Case 1). No real bookings.</span>
+    <span><a href="advisor.html" data-i18n="nav.advisor">Advisor dashboard</a> · <a href="vendor/LICENSE-click-to-call-sdk.txt">Licenses</a></span>
+  </div>
+</footer>
+
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>
