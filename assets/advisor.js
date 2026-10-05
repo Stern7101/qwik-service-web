@@ -51,4 +51,6 @@ async function load() {
 
 document.getElementById("btnRefresh").addEventListener("click", load);
 load();
-setInterval(load, 15000);
+// Nur abfragen, solange der Tab sichtbar ist (schont das KV-Kontingent des Workers); beim Zurückkehren sofort aktualisieren.
+setInterval(() => { if (document.visibilityState === "visible") load(); }, 15000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") load(); });
