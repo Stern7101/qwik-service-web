@@ -11,6 +11,7 @@ export const DE = {
   "call.note": "Simuliert die Rufnummer, die ein echter Telefonanruf mitsendet. Mit „Unbekannte Nummer“ testen Sie den Fall „Anruf von einer anderen Nummer“.",
   "call.start": "📞 Anrufen", "call.mute": "Stumm", "call.unmute": "Ton an", "call.end": "Auflegen",
   "xapp.title": "📱 Qwik Service App", "xapp.open": "In neuem Fenster öffnen", "xapp.fallback": "App wird nicht angezeigt? ",
+  "xapp.blocked": "Ihr Browser blendet die eingebettete App aus (oft ein Werbe- oder Datenschutz-Blocker). Öffnen Sie sie in einem kleinen Fenster neben dieser Seite – das Gespräch bleibt verbunden.", "xapp.openBig": "Termin-App öffnen",
   "xapp.pin": "Auf dem Handy: QR-Code scannen oder öffnen",
   "svc.title": "Service-Menü",
   "svc.lead": "Nicht sicher, was Ihr Auto braucht? Buchen Sie eine allgemeine Inspektion oder Diagnose und besprechen Sie die Symptome mit dem Techniker.",

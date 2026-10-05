@@ -10,7 +10,7 @@ const ENDPOINT_URL = "https://endpoint-app.cognigy.ai/e901c7d80aee92758b50a42d9f
 const $ = (id) => document.getElementById(id);
 const els = {
   status: $("callStatus"), call: $("btnCall"), mute: $("btnMute"), end: $("btnEnd"), caller: $("callerId"),
-  transcript: $("transcript"), xapp: $("xapp"), frame: $("xappFrame"), open: $("xappOpen"), qr: $("xappQr"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
+  transcript: $("transcript"), xapp: $("xapp"), frame: $("xappFrame"), blocked: $("xappBlocked"), openBig: $("xappOpenBig"), open: $("xappOpen"), qr: $("xappQr"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
 };
 
 const onLang = (lang) => {
@@ -95,6 +95,12 @@ function handleData(payload) {
     if (url) {
       xappUrl = url;
       els.frame.src = url;
+      // Höhe erzwingen (manche Browser-Erweiterungen falten fremde iframes auf 0 px) …
+      els.frame.style.setProperty("height", window.innerWidth <= 560 ? "580px" : "600px", "important");
+      els.frame.style.setProperty("display", "block", "important");
+      els.blocked.classList.remove("show");
+      // … und falls er trotzdem unsichtbar bleibt: großen Button zum Öffnen im Popup anzeigen
+      setTimeout(() => { if (els.xapp.classList.contains("open") && els.frame.offsetHeight < 50) els.blocked.classList.add("show"); }, 1200);
       renderQr(url);
       els.pin.textContent = String(findKey(payload, "pin") || "—").toUpperCase();
       const pinUrl = findKey(payload, "pinPageUrl");
@@ -105,6 +111,7 @@ function handleData(payload) {
   } else if (show === "false" || show === false) {
     els.xapp.classList.remove("open");
     els.frame.src = "about:blank";
+    els.blocked.classList.remove("show");
     xappUrl = null;
     if (xappWin && !xappWin.closed) { try { xappWin.close(); } catch (e) { /* ignore */ } }
   }
@@ -159,6 +166,7 @@ async function cleanup(next) {
 
 els.call.addEventListener("click", startCall);
 els.open.addEventListener("click", openXapp);
+els.openBig.addEventListener("click", openXapp);
 els.end.addEventListener("click", async () => { if (client) { try { await client.endCall(); } catch (e) { /* ignore */ } } cleanup("ended"); });
 els.mute.addEventListener("click", () => {
   if (!client) return;
