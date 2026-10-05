@@ -123,10 +123,10 @@ async function startCall() {
     client = await createWebRTCClient({ endpointUrl: ENDPOINT_URL, userId });
     client.on("answered", async () => {
       setStatus("live");
-      if (ani) {
-        // Fallback, falls die userId nicht als Rufnummer im Flow ankommt
-        try { await client.sendInfo("", { simulated_ani: ani }); } catch (e) { console.warn("sendInfo failed", e); }
-      }
+      // Seitensprache (Gespräch startet in DE/EN) + simulierte Rufnummer (Fallback, falls userId nicht als ANI ankommt)
+      const info = { preferred_lang: currentLang() };
+      if (ani) info.simulated_ani = ani;
+      try { await client.sendInfo("", info); } catch (e) { console.warn("sendInfo failed", e); }
     });
     client.on("ended", () => cleanup("ended"));
     client.on("failed", (s, info) => { console.warn("call failed", info); cleanup("failed"); });
