@@ -78,12 +78,12 @@
 
         <div class="xapp" id="xapp">
           <div class="xapp-bar"><span data-i18n="xapp.title">📱 Qwik Service app</span></div>
-          <div class="xapp-body">
-            <p class="xapp-hint" data-i18n="xapp.hint">Quinn has sent your appointment to the app. Open it and choose keep or cancel – the call stays connected.</p>
-            <button class="btn btn-red xapp-btn" id="xappOpen" type="button" data-i18n="xapp.open">Open appointment app</button>
-            <div class="xapp-alt">
-              <div id="xappQr" class="xapp-qr" aria-label="QR code"></div>
-              <div class="xapp-pin"><span data-i18n="xapp.pin">On your phone: scan the QR code or open</span> <a id="xappPinUrl" href="#" target="_blank" rel="noopener">static-app.cognigy.ai</a> · PIN <b id="xappPin">—</b></div>
+          <iframe id="xappFrame" title="Qwik Service app" allow="clipboard-write"></iframe>
+          <div class="xapp-alt">
+            <div id="xappQr" class="xapp-qr" aria-label="QR code"></div>
+            <div class="xapp-pin">
+              <span data-i18n="xapp.fallback">App not showing? </span><a href="#" id="xappOpen" data-i18n="xapp.open">Open in new window</a><br>
+              <span data-i18n="xapp.pin">On your phone: scan the QR code or open</span> <a id="xappPinUrl" href="#" target="_blank" rel="noopener">static-app.cognigy.ai</a> · PIN <b id="xappPin">—</b>
             </div>
           </div>
         </div>

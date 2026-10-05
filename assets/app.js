@@ -10,7 +10,7 @@ const ENDPOINT_URL = "https://endpoint-app.cognigy.ai/e901c7d80aee92758b50a42d9f
 const $ = (id) => document.getElementById(id);
 const els = {
   status: $("callStatus"), call: $("btnCall"), mute: $("btnMute"), end: $("btnEnd"), caller: $("callerId"),
-  transcript: $("transcript"), xapp: $("xapp"), open: $("xappOpen"), qr: $("xappQr"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
+  transcript: $("transcript"), xapp: $("xapp"), frame: $("xappFrame"), open: $("xappOpen"), qr: $("xappQr"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
 };
 
 const onLang = (lang) => {
@@ -77,8 +77,9 @@ function renderQr(url) {
   } catch (e) { console.warn("QR failed", e); }
 }
 
-// Die Cognigy-xApp-Shell startet nicht in einem iframe → Popup im Handy-Format (Klick nötig) + QR-Code + PIN
-function openXapp() {
+// Rückfall, falls der Browser die eingebettete xApp blockiert: Popup im Handy-Format (Klick nötig)
+function openXapp(ev) {
+  if (ev) ev.preventDefault();
   if (!xappUrl) return;
   const w = 430, h = 780;
   const left = Math.max(0, window.screenX + window.outerWidth - w - 24);
@@ -93,6 +94,7 @@ function handleData(payload) {
     const url = findKey(payload, "xAppUrl");
     if (url) {
       xappUrl = url;
+      els.frame.src = url;
       renderQr(url);
       els.pin.textContent = String(findKey(payload, "pin") || "—").toUpperCase();
       const pinUrl = findKey(payload, "pinPageUrl");
@@ -102,6 +104,7 @@ function handleData(payload) {
     }
   } else if (show === "false" || show === false) {
     els.xapp.classList.remove("open");
+    els.frame.src = "about:blank";
     xappUrl = null;
     if (xappWin && !xappWin.closed) { try { xappWin.close(); } catch (e) { /* ignore */ } }
   }
@@ -167,7 +170,8 @@ window.addEventListener("beforeunload", () => { if (client) client.destroy().cat
 onLang(currentLang());
 setStatus("idle");
 
-// Vorschau des App-Panels ohne Anruf (für Layout-Prüfung): …/#xapp-demo
-if (location.hash === "#xapp-demo") {
-  handleData({ show_xapp: "true", xAppUrl: "https://static-app.cognigy.ai?token=demo", pin: "kvkezr", pinPageUrl: "https://static-app.cognigy.ai" });
+// Vorschau des App-Panels ohne Anruf (für Layout-Prüfung): …/#xapp-demo oder …/#xapp-demo=<xApp-URL>
+if (location.hash.startsWith("#xapp-demo")) {
+  const demoUrl = decodeURIComponent(location.hash.split("=").slice(1).join("=")) || "https://static-app.cognigy.ai?token=demo";
+  handleData({ show_xapp: "true", xAppUrl: demoUrl, pin: "demo42", pinPageUrl: "https://static-app.cognigy.ai" });
 }
