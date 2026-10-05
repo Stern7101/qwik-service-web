@@ -77,9 +77,15 @@
         <div class="transcript" id="transcript" aria-live="polite" data-empty="Live transcript appears here during the call."></div>
 
         <div class="xapp" id="xapp">
-          <div class="xapp-bar"><span data-i18n="xapp.title">📱 Qwik Service app</span><a id="xappOpen" href="#" target="_blank" rel="noopener" data-i18n="xapp.open">Open in new tab ↗</a></div>
-          <iframe id="xappFrame" title="Qwik Service app" allow="clipboard-write"></iframe>
-          <div class="xapp-pin"><span data-i18n="xapp.pin">Other device? Open</span> <a id="xappPinUrl" href="#" target="_blank" rel="noopener">static-app.cognigy.ai</a> · PIN <b id="xappPin">—</b></div>
+          <div class="xapp-bar"><span data-i18n="xapp.title">📱 Qwik Service app</span></div>
+          <div class="xapp-body">
+            <p class="xapp-hint" data-i18n="xapp.hint">Quinn has sent your appointment to the app. Open it and choose keep or cancel – the call stays connected.</p>
+            <button class="btn btn-red xapp-btn" id="xappOpen" type="button" data-i18n="xapp.open">Open appointment app</button>
+            <div class="xapp-alt">
+              <div id="xappQr" class="xapp-qr" aria-label="QR code"></div>
+              <div class="xapp-pin"><span data-i18n="xapp.pin">On your phone: scan the QR code or open</span> <a id="xappPinUrl" href="#" target="_blank" rel="noopener">static-app.cognigy.ai</a> · PIN <b id="xappPin">—</b></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -177,10 +183,11 @@
 <footer>
   <div class="wrap">
     <span data-i18n="foot.demo">Qwik Service is a fictitious company – demo for the NiCE Cognigy Capstone Project (Use Case 1). No real bookings.</span>
-    <span><a href="advisor.html" data-i18n="nav.advisor">Advisor dashboard</a> · <a href="vendor/LICENSE-click-to-call-sdk.txt">Licenses</a></span>
+    <span><a href="advisor.html" data-i18n="nav.advisor">Advisor dashboard</a> · <a href="vendor/LICENSES.txt">Licenses</a></span>
   </div>
 </footer>
 
+<script src="vendor/qrcode-generator-1.4.4.js"></script>
 <script type="module" src="assets/app.js"></script>
 </body>
 </html>

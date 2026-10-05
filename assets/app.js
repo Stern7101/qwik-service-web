@@ -10,17 +10,18 @@ const ENDPOINT_URL = "https://endpoint-app.cognigy.ai/e901c7d80aee92758b50a42d9f
 const $ = (id) => document.getElementById(id);
 const els = {
   status: $("callStatus"), call: $("btnCall"), mute: $("btnMute"), end: $("btnEnd"), caller: $("callerId"),
-  transcript: $("transcript"), xapp: $("xapp"), frame: $("xappFrame"), open: $("xappOpen"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
+  transcript: $("transcript"), xapp: $("xapp"), open: $("xappOpen"), qr: $("xappQr"), pin: $("xappPin"), pinUrl: $("xappPinUrl")
 };
 
 const onLang = (lang) => {
   els.transcript.dataset.empty = t("rt.transcriptEmpty", lang, "Live transcript appears here during the call.");
-  if (typeof state !== "undefined" && state === "idle") onLang(currentLang());
-setStatus("idle");
+  if (stateReady && state === "idle") setStatus("idle");
 };
+let stateReady = false;
 const currentLang = initLangSwitch(onLang);
 let client = null;
 let state = "idle";
+stateReady = true;
 let muted = false;
 
 function setStatus(s) {
@@ -63,13 +64,36 @@ function findKey(obj, key, depth = 0) {
   return undefined;
 }
 
+let xappUrl = null;
+let xappWin = null;
+
+function renderQr(url) {
+  els.qr.innerHTML = "";
+  try {
+    const qr = window.qrcode(0, "M");
+    qr.addData(url);
+    qr.make();
+    els.qr.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
+  } catch (e) { console.warn("QR failed", e); }
+}
+
+// Die Cognigy-xApp-Shell startet nicht in einem iframe → Popup im Handy-Format (Klick nötig) + QR-Code + PIN
+function openXapp() {
+  if (!xappUrl) return;
+  const w = 430, h = 780;
+  const left = Math.max(0, window.screenX + window.outerWidth - w - 24);
+  const top = Math.max(0, window.screenY + 60);
+  xappWin = window.open(xappUrl, "qwik-xapp", `popup=yes,width=${w},height=${h},left=${left},top=${top}`);
+  if (!xappWin) window.open(xappUrl, "_blank", "noopener");
+}
+
 function handleData(payload) {
   const show = findKey(payload, "show_xapp");
   if (show === "true" || show === true) {
     const url = findKey(payload, "xAppUrl");
     if (url) {
-      els.frame.src = url;
-      els.open.href = url;
+      xappUrl = url;
+      renderQr(url);
       els.pin.textContent = String(findKey(payload, "pin") || "—").toUpperCase();
       const pinUrl = findKey(payload, "pinPageUrl");
       if (pinUrl) { els.pinUrl.href = pinUrl; els.pinUrl.textContent = pinUrl.replace(/^https?:\/\//, ""); }
@@ -78,7 +102,8 @@ function handleData(payload) {
     }
   } else if (show === "false" || show === false) {
     els.xapp.classList.remove("open");
-    els.frame.src = "about:blank";
+    xappUrl = null;
+    if (xappWin && !xappWin.closed) { try { xappWin.close(); } catch (e) { /* ignore */ } }
   }
 }
 
@@ -130,6 +155,7 @@ async function cleanup(next) {
 }
 
 els.call.addEventListener("click", startCall);
+els.open.addEventListener("click", openXapp);
 els.end.addEventListener("click", async () => { if (client) { try { await client.endCall(); } catch (e) { /* ignore */ } } cleanup("ended"); });
 els.mute.addEventListener("click", () => {
   if (!client) return;
@@ -140,3 +166,8 @@ els.mute.addEventListener("click", () => {
 window.addEventListener("beforeunload", () => { if (client) client.destroy().catch(() => {}); });
 onLang(currentLang());
 setStatus("idle");
+
+// Vorschau des App-Panels ohne Anruf (für Layout-Prüfung): …/#xapp-demo
+if (location.hash === "#xapp-demo") {
+  handleData({ show_xapp: "true", xAppUrl: "https://static-app.cognigy.ai?token=demo", pin: "kvkezr", pinPageUrl: "https://static-app.cognigy.ai" });
+}

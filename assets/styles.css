@@ -146,3 +146,14 @@ body { overflow-x: hidden; }
   .call-actions .btn { flex: 1 1 30%; padding: 12px 10px; }
   .hero .cta .btn { flex: 1 1 auto; }
 }
+
+/* xApp-Panel ohne iframe (Cognigy xApp-Shell startet nicht eingebettet) */
+.xapp-body { padding: 14px; }
+.xapp-hint { margin: 0 0 12px; font-size: 14px; color: var(--ink-2); }
+.xapp-btn { width: 100%; font-size: 16px; padding: 14px; }
+.xapp-alt { display: flex; gap: 12px; align-items: center; margin-top: 12px; }
+.xapp-qr { flex: none; width: 96px; height: 96px; background: #fff; }
+.xapp-qr img, .xapp-qr svg { width: 96px; height: 96px; display: block; }
+.xapp .xapp-pin { border-top: 0; padding: 0; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(225,6,0,.45); } 50% { box-shadow: 0 0 0 10px rgba(225,6,0,0); } }
+.xapp.open .xapp-btn { animation: pulse 1.6s ease-out 3; }

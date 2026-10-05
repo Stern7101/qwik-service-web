@@ -1,0 +1,4 @@
+MIT License – @cognigy/click-to-call-sdk 0.2.0 (bundles JsSIP, MIT)
+
+
+qrcode-generator 1.4.4 – MIT License – Copyright (c) 2009 Kazuhiko Arase (https://github.com/kazuhikoarase/qrcode-generator)
